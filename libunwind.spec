@@ -201,7 +201,7 @@ echo ====================TESTSUITE DISABLED=========================
 * Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> - 0.98.5-3
 - rebuilt for unwind info generation, broken in gcc-4.1.1-21
 
-* Sat Sep 22 2006 Jan Kratochvil <jan.kratochvil@redhat.com> - 0.98.5-2
+* Fri Sep 22 2006 Jan Kratochvil <jan.kratochvil@redhat.com> - 0.98.5-2
 - SELinux compatibility fix - stack is now non-exec (Jakub Jelinek suggestion).
 
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 0.98.5-1.1
