@@ -7,13 +7,12 @@
 Summary: An unwinding library
 Name: %{?scl_prefix}libunwind
 Version: 1.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: MIT
 Group: Development/Debuggers
 Source: http://download.savannah.gnu.org/releases/libunwind/libunwind-%{version}.tar.gz
 #Fedora specific patch
 Patch1: libunwind-disable-setjmp.patch
-Patch2: libunwind-prefixlib.patch
 URL: http://savannah.nongnu.org/projects/libunwind
 ExclusiveArch: %{arm} hppa ia64 mips ppc ppc64 %{ix86} x86_64
 
@@ -49,8 +48,8 @@ libtoolize --force
 # we need to patch ltmain in order to provide prefixed soname,
 # so symlink doesn't work for us
 unlink config/ltmain.sh
-cp /usr/share/libtool/config/ltmain.sh config/ltmain.sh
-%patch2 -p1 -b .prefixlib
+sed -e 's|major=.$func_arith_result|major=.$verstring_prefix$func_arith_result|g' \
+    /usr/share/libtool/config/ltmain.sh > config/ltmain.sh
 
 autoheader
 automake --add-missing
@@ -109,7 +108,7 @@ echo ====================TESTSUITE DISABLED=========================
 %{_includedir}/libunwind*.h
 
 %changelog
-* Mon Feb 17 2014 Honza Horak <hhorak@redhat.com> - 1.1-3
+* Mon Feb 17 2014 Honza Horak <hhorak@redhat.com> - 1.1-4
 - Prefix library with scl name
   Related: #1042874
 - Change license to MIT
