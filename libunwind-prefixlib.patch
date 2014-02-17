@@ -1,0 +1,12 @@
+diff -up libunwind-1.1/config/ltmain.sh.prefixlib libunwind-1.1/config/ltmain.sh
+--- libunwind-1.1/config/ltmain.sh.prefixlib	2014-02-17 12:42:27.062569025 +0100
++++ libunwind-1.1/config/ltmain.sh	2014-02-17 12:43:27.242673176 +0100
+@@ -7455,7 +7455,7 @@ func_mode_link ()
+ 
+ 	linux) # correct to gnu/linux during the next big refactor
+ 	  func_arith $current - $age
+-	  major=.$func_arith_result
++	  major=.$verstring_prefix$func_arith_result
+ 	  versuffix="$major.$age.$revision"
+ 	  ;;
+ 

@@ -7,12 +7,13 @@
 Summary: An unwinding library
 Name: %{?scl_prefix}libunwind
 Version: 1.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: BSD
 Group: Development/Debuggers
 Source: http://download.savannah.gnu.org/releases/libunwind/libunwind-%{version}.tar.gz
 #Fedora specific patch
 Patch1: libunwind-disable-setjmp.patch
+Patch2: libunwind-prefixlib.patch
 URL: http://savannah.nongnu.org/projects/libunwind
 ExclusiveArch: %{arm} hppa ia64 mips ppc ppc64 %{ix86} x86_64
 
@@ -42,16 +43,26 @@ libunwind.
 %setup -n %{pkg_name}-%{version} -q
 %patch1 -p1
 
-%build
 aclocal
 libtoolize --force
+
+# we need to patch ltmain in order to provide prefixed soname,
+# so symlink doesn't work for us
+unlink config/ltmain.sh
+cp /usr/share/libtool/config/ltmain.sh config/ltmain.sh
+%patch2 -p1 -b .prefixlib
+
 autoheader
 automake --add-missing
 autoconf
+
+%build
+%{?scl_prefix:export verstring_prefix="%{scl_prefix}"}
 %configure --enable-static --enable-shared
 make %{?_smp_mflags}
 
 %install
+%{?scl_prefix:export verstring_prefix="%{scl_prefix}"}
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 
@@ -98,6 +109,10 @@ echo ====================TESTSUITE DISABLED=========================
 %{_includedir}/libunwind*.h
 
 %changelog
+* Mon Feb 17 2014 Honza Horak <hhorak@redhat.com> - 1.1-3
+- Prefix library with scl name
+  Related: #1042874
+
 * Sun May 05 2013 Honza Horak <hhorak@redhat.com> - 1.1-2
 - Add support for software collections
 
