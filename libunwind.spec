@@ -8,7 +8,7 @@ Summary: An unwinding library
 Name: %{?scl_prefix}libunwind
 Version: 1.1
 Release: 3%{?dist}
-License: BSD
+License: MIT
 Group: Development/Debuggers
 Source: http://download.savannah.gnu.org/releases/libunwind/libunwind-%{version}.tar.gz
 #Fedora specific patch
@@ -112,6 +112,8 @@ echo ====================TESTSUITE DISABLED=========================
 * Mon Feb 17 2014 Honza Horak <hhorak@redhat.com> - 1.1-3
 - Prefix library with scl name
   Related: #1042874
+- Change license to MIT
+  Resolves: #1065911
 
 * Sun May 05 2013 Honza Horak <hhorak@redhat.com> - 1.1-2
 - Add support for software collections
